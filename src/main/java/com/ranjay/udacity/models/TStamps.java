@@ -23,7 +23,7 @@ public class TStamps implements StoredObject{
     
 
 	@Override
-	public PreparedStatement createPreparedStatement(Connection connection) {
+	public PreparedStatement createPreparedStatement(Connection connection, PreparedStatement statement) {
 		return null;
 	}
 }

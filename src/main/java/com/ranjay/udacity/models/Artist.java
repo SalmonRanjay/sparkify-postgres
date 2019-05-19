@@ -26,17 +26,17 @@ public class Artist implements StoredObject {
     }
 
     @Override
-    public PreparedStatement createPreparedStatement(Connection connecton) {
-        String insertTableSQL = "INSERT INTO artists"
-                + "(artist_id, name, location, lattitude, longitude) VALUES" + "(?,?,?,?,?)";
-        PreparedStatement statement = null;
+    public PreparedStatement createPreparedStatement(Connection connecton, PreparedStatement statement) {
+        
+        
         try {
-            statement = connecton.prepareStatement(insertTableSQL);
+            // statement = connecton.prepareStatement(insertTableSQL);
             statement.setString(1, this.getArtist_id());
             statement.setString(2, this.getArtist_name());
             statement.setString(3, this.getArtist_location());
             statement.setFloat(4, this.getArtist_latitude());
             statement.setFloat(5, this.getArtist_longitude());
+            statement.addBatch();
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

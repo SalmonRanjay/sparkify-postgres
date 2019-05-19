@@ -29,7 +29,7 @@ public final class SparkifyService {
         List<String> userList = new ArrayList<>();
         try {
             br = Files.newBufferedReader(node.toPath());
-            System.out.println(node.getAbsolutePath());
+            // System.out.println(node.getAbsolutePath());
             String line;  
             while ((line = br.readLine()) != null) {
                 userList.add(line);

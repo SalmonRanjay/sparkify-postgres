@@ -1,6 +1,5 @@
 package com.ranjay.udacity.models;
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -24,28 +23,23 @@ public class Song implements StoredObject {
                 + getArtist_id() + "'" + ", year='" + getYear() + "'" + ", duration='" + getDuration() + "'" + "}";
     }
 
- 
-
-  
     @Override
-    public PreparedStatement createPreparedStatement(Connection connection) {
-        PreparedStatement statement = null;
-        String insertStatement = "INSERT INTO songs" + "(song_id, title, artist_id, year, duration) VALUES"
-                + "(?,?,?,?,?)";   
+    public PreparedStatement createPreparedStatement(Connection connection, PreparedStatement statement) {
+
         try {
-            statement = connection.prepareStatement(insertStatement);
+            // statement = connection.prepareStatement(insertStatement);
             statement.setString(1, this.getSong_id());
             statement.setString(2, this.getTitle());
             statement.setString(3, this.getArtist_id());
             statement.setInt(4, this.getYear());
             statement.setFloat(5, this.getDuration());
+            statement.addBatch();
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-      
+
         return statement;
     }
-
 
 }

@@ -2,6 +2,7 @@ package com.ranjay.udacity.models;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 import com.ranjay.udacity.interfaces.StoredObject;
 
@@ -20,7 +21,14 @@ public class Songplays implements StoredObject {
     private String userAgent;
 
     @Override
-    public PreparedStatement createPreparedStatement(Connection connection) {
+    public PreparedStatement createPreparedStatement(Connection connection, PreparedStatement statement) {
+
+        String selectSQL = ""; //
+        /*
+        SELECT a.artist_id, s.song_id, u.user_id FROM users
+                            join artist on  WHERE USER_ID = ?";
+        */
+      
         return null;
     }
     

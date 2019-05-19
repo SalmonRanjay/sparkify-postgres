@@ -21,17 +21,17 @@ public class User implements StoredObject {
 
 
     @Override
-    public PreparedStatement createPreparedStatement(Connection connection) {
-        PreparedStatement statement = null;
-        String insertStatement = "INSERT INTO users" + "(user_id, first_name, last_name, gender, level) VALUES"
-                + "(?,?,?,?,?)";   
+    public PreparedStatement createPreparedStatement(Connection connection, PreparedStatement statement) {
+      
+          
         try {
-            statement = connection.prepareStatement(insertStatement);
+            // statement = connection.prepareStatement(insertStatement);
             statement.setString(1, this.getUserId());
             statement.setString(2, this.getFirstName());
             statement.setString(3, this.getLastName());
             statement.setString(4,this.getGender());
             statement.setString(5, this.getLevel());
+            statement.addBatch();
         }
         catch (SQLException e) {
             // TODO Auto-generated catch block

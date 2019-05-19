@@ -44,12 +44,10 @@ public class Timestamps implements StoredObject {
     }
 
     @Override
-    public PreparedStatement createPreparedStatement(Connection connection) {
-        String insertTableSQL = "INSERT INTO logtimes" + "(start_time, hour, day, week, month, year, weekday) VALUES"
-                + "(?,?,?,?,?)";
-        PreparedStatement statement = null;
+    public PreparedStatement createPreparedStatement(Connection connection, PreparedStatement statement) {
+        
         try {
-            statement = connection.prepareStatement(insertTableSQL);
+            // statement = connection.prepareStatement(insertTableSQL);
             statement.setString(1, this.getStart_time());
             statement.setInt(2, this.getHour());
             statement.setInt(3, this.getDay());
@@ -57,6 +55,7 @@ public class Timestamps implements StoredObject {
             statement.setInt(5, this.getMonth());
             statement.setInt(6, this.getYear());
             statement.setString(7, this.getWeekday());
+            statement.addBatch();
 
         } catch (SQLException e) {
             // TODO Auto-generated catch block

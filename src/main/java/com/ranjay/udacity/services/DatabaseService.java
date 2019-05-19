@@ -1,16 +1,21 @@
 package com.ranjay.udacity.services;
 
+import java.sql.BatchUpdateException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public final class DatabaseService {
     private static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
-    private static final String DB_CONNECTION = "jdbc:mysql://localhost:3306/udacity_demo?useSSL=false&serverTimezone=UTC";
+    private static final String DB_CONNECTION = "jdbc:mysql://localhost:3306/udacity?useSSL=false&serverTimezone=UTC";
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "password";
+    private static final Logger LOGGER = LogManager.getLogger(DatabaseService.class.getName());
 
 
     private DatabaseService(){};
@@ -24,6 +29,7 @@ public final class DatabaseService {
     private static Connection createDBConnection(Connection dbConnection) {
         try {
             dbConnection = DriverManager.getConnection(DB_CONNECTION, DB_USER, DB_PASSWORD);
+            dbConnection.setAutoCommit(false);//commit trasaction manually
             return dbConnection;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -39,14 +45,19 @@ public final class DatabaseService {
         }
     }
 
-    public static void executePreparedStatement(PreparedStatement statement) {
+    public static void executePreparedStatement(PreparedStatement statement, Connection connection) {
         try {
-            statement.executeUpdate();
+            statement.executeBatch();
+            connection.commit();
+            // statement.executeUpdate();
         } catch (SQLIntegrityConstraintViolationException e) {
-            System.out.println(e.getMessage());
-
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
+            LOGGER.error(e.getMessage());
+           
+        } catch(BatchUpdateException e){
+            LOGGER.error(e.getMessage());
+        }
+        catch (SQLException e) {
+            LOGGER.error(e.getMessage());
             e.printStackTrace();
         }
     }

@@ -67,3 +67,8 @@ nb-configuration.xml
 .vscode 
 .settings
 .factorypath
+
+##########################
+## MISC 
+##########################
+src/main/java/com/ranjay/udacity/Main.java

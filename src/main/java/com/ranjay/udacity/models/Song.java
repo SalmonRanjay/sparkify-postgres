@@ -3,6 +3,8 @@ package com.ranjay.udacity.models;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Objects;
+
 import com.ranjay.udacity.interfaces.StoredObject;
 
 import lombok.Getter;
@@ -22,6 +24,23 @@ public class Song implements StoredObject {
         return "{" + " song_id='" + getSong_id() + "'" + ", title='" + getTitle() + "'" + ", artist_id='"
                 + getArtist_id() + "'" + ", year='" + getYear() + "'" + ", duration='" + getDuration() + "'" + "}";
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof Song)) {
+            return false;
+        }
+        Song song = (Song) o;
+        return Objects.equals(song_id, song.song_id) ;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(song_id);
+    }
+
 
     @Override
     public PreparedStatement createPreparedStatement(Connection connection, PreparedStatement statement) {

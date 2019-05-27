@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS artists(
     PRIMARY KEY (artist_id)
 );
 
-CREATE TABLE IF NOT EXISTS logtimes(
+CREATE TABLE IF NOT EXISTS time(
     start_time TEXT,
     hour int,
     day int,

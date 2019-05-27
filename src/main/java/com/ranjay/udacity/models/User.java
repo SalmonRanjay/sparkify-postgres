@@ -3,6 +3,7 @@ package com.ranjay.udacity.models;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Objects;
 
 import com.ranjay.udacity.interfaces.StoredObject;
 
@@ -52,6 +53,23 @@ public class User implements StoredObject {
             ", gender='" + getGender() + "'" +
             ", length='" + getLevel() + "'" +
             "}";
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof User)) {
+            return false;
+        }
+        User user = (User) o;
+        return Objects.equals(userId, user.userId) ;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId);
     }
 
 

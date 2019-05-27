@@ -43,7 +43,10 @@ public class Timestamps implements StoredObject {
         this.start_time = localDateFormat.format(date);
     }
 
-    @Override
+    public Timestamps(TStamps ts) {
+	}
+
+	@Override
     public PreparedStatement createPreparedStatement(Connection connection, PreparedStatement statement) {
         
         try {
@@ -80,5 +83,6 @@ public class Timestamps implements StoredObject {
             "}";
     }
 
+    
 
 }

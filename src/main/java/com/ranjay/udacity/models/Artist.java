@@ -3,6 +3,7 @@ package com.ranjay.udacity.models;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Objects;
 
 import com.ranjay.udacity.interfaces.StoredObject;
 
@@ -24,6 +25,24 @@ public class Artist implements StoredObject {
                 + ", artist_location='" + getArtist_location() + "'" + ", artist_latitude='" + getArtist_latitude()
                 + "'" + ", artist_longitude='" + getArtist_longitude() + "'" + "}";
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof Artist)) {
+            return false;
+        }
+        Artist artist = (Artist) o;
+        return Objects.equals(artist_id, artist.artist_id) ;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(artist_id);
+    }
+
 
     @Override
     public PreparedStatement createPreparedStatement(Connection connecton, PreparedStatement statement) {

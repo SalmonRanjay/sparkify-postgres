@@ -13,11 +13,7 @@ public class App {
     private static final Logger LOGGER = LogManager.getLogger(App.class.getName());
 
     public static void main(String[] args) {
-        Thread.UncaughtExceptionHandler h = new Thread.UncaughtExceptionHandler() {
-            public void uncaughtException(Thread th, Throwable ex) {
-                System.out.println("Uncaught exception: " + ex);
-            }
-        };
+      
 
         Artist artistsManager = new Artist();
         artistsManager.mapPojoToFileData(SPFileService.processFileToStreamOFStrings(new File("./data")))

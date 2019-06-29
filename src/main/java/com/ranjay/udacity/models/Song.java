@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 import com.ranjay.udacity.interfaces.StoredObject;
 
@@ -12,7 +13,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Song implements StoredObject {
+public class Song extends StoredObject {
     private String song_id;
     private String title;
     private String artist_id;
@@ -33,7 +34,7 @@ public class Song implements StoredObject {
             return false;
         }
         Song song = (Song) o;
-        return Objects.equals(song_id, song.song_id) ;
+        return Objects.equals(song_id, song.song_id);
     }
 
     @Override
@@ -41,24 +42,26 @@ public class Song implements StoredObject {
         return Objects.hash(song_id);
     }
 
+    @Override
+    public <T extends StoredObject> Stream<T> mapPojoToFileData(Stream<String> dataStream) {
+        return null;
+    }
 
     @Override
-    public PreparedStatement createPreparedStatement(Connection connection, PreparedStatement statement) {
-
-        try {
-            // statement = connection.prepareStatement(insertStatement);
-            statement.setString(1, this.getSong_id());
-            statement.setString(2, this.getTitle());
-            statement.setString(3, this.getArtist_id());
-            statement.setInt(4, this.getYear());
-            statement.setFloat(5, this.getDuration());
-            statement.addBatch();
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        return statement;
+    public PreparedStatement createPreparedStatement(Connection connection) {
+        // try {
+        //     // statement = connection.prepareStatement(insertStatement);
+        //     statement.setString(1, this.getSong_id());
+        //     statement.setString(2, this.getTitle());
+        //     statement.setString(3, this.getArtist_id());
+        //     statement.setInt(4, this.getYear());
+        //     statement.setFloat(5, this.getDuration());
+        //     statement.addBatch();
+        // } catch (SQLException e) {
+        //     // TODO Auto-generated catch block
+        //     e.printStackTrace();
+        // }
+        return null;
     }
 
 }

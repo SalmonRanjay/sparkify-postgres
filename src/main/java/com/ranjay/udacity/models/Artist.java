@@ -2,12 +2,14 @@ package com.ranjay.udacity.models;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.google.gson.Gson;
 import com.ranjay.udacity.interfaces.StoredObject;
-import com.ranjay.udacity.services.ObjectMapperService;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -46,25 +48,35 @@ public class Artist extends StoredObject {
 
     @Override
     public <T extends StoredObject> Stream<T> mapPojoToFileData(Stream<String> dataStream) {
-        return ObjectMapperService.mapPojoToFileData(dataStream, Artist.class);
+        // return ObjectMapperService.mapPojoToFileData(dataStream, Artist.class);
+        List<Artist> storedObjectList = new ArrayList<>();
+        Gson converter = new Gson();
+        for (String line : dataStream.collect(Collectors.toList())) {
+            storedObjectList.add(converter.fromJson(line, Artist.class));
+        }
+        return (Stream<T>) storedObjectList.stream();
+
+    //  return   dataStream.map( line ->{
+    //        Gson converter = new Gson();
+    //        return (Artist) converter.fromJson(line , Artist.class); 
+    //     });
     }
 
     @Override
     public PreparedStatement createPreparedStatement(Connection connection) {
         // try {
-        //     // statement = connecton.prepareStatement(insertTableSQL);
-        //     statement.setString(1, this.getArtist_id());
-        //     statement.setString(2, this.getArtist_name());
-        //     statement.setString(3, this.getArtist_location());
-        //     statement.setFloat(4, this.getArtist_latitude());
-        //     statement.setFloat(5, this.getArtist_longitude());
-        //     statement.addBatch();
+        // // statement = connecton.prepareStatement(insertTableSQL);
+        // statement.setString(1, this.getArtist_id());
+        // statement.setString(2, this.getArtist_name());
+        // statement.setString(3, this.getArtist_location());
+        // statement.setFloat(4, this.getArtist_latitude());
+        // statement.setFloat(5, this.getArtist_longitude());
+        // statement.addBatch();
         // } catch (SQLException e) {
-        //     // TODO Auto-generated catch block
-        //     e.printStackTrace();
+        // // TODO Auto-generated catch block
+        // e.printStackTrace();
         // }
 
-        
         return null;
     }
 

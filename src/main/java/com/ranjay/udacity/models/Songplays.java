@@ -2,7 +2,7 @@ package com.ranjay.udacity.models;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.util.stream.Stream;
 
 import com.ranjay.udacity.interfaces.StoredObject;
 
@@ -11,7 +11,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Songplays implements StoredObject {
+public class Songplays extends StoredObject {
 
     private String songplay_id;
     private String userId;
@@ -20,15 +20,15 @@ public class Songplays implements StoredObject {
     private String location;
     private String userAgent;
 
-    @Override
-    public PreparedStatement createPreparedStatement(Connection connection, PreparedStatement statement) {
+    
 
-        String selectSQL = ""; //
-        /*
-        SELECT a.artist_id, s.song_id, u.user_id FROM users
-                            join artist on  WHERE USER_ID = ?";
-        */
-      
+    @Override
+    public <T extends StoredObject> Stream<T> mapPojoToFileData(Stream<String> dataStream) {
+        return null;
+    }
+
+    @Override
+    public PreparedStatement createPreparedStatement(Connection connection) {
         return null;
     }
     

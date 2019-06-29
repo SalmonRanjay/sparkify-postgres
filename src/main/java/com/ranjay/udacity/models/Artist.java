@@ -4,15 +4,17 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 import com.ranjay.udacity.interfaces.StoredObject;
+import com.ranjay.udacity.services.ObjectMapperService;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class Artist implements StoredObject {
+public class Artist extends StoredObject {
     private String artist_id;
     private String artist_name;
     private String artist_location;
@@ -26,7 +28,6 @@ public class Artist implements StoredObject {
                 + "'" + ", artist_longitude='" + getArtist_longitude() + "'" + "}";
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (o == this)
@@ -35,7 +36,7 @@ public class Artist implements StoredObject {
             return false;
         }
         Artist artist = (Artist) o;
-        return Objects.equals(artist_id, artist.artist_id) ;
+        return Objects.equals(artist_id, artist.artist_id);
     }
 
     @Override
@@ -43,25 +44,28 @@ public class Artist implements StoredObject {
         return Objects.hash(artist_id);
     }
 
+    @Override
+    public <T extends StoredObject> Stream<T> mapPojoToFileData(Stream<String> dataStream) {
+        return ObjectMapperService.mapPojoToFileData(dataStream, Artist.class);
+    }
 
     @Override
-    public PreparedStatement createPreparedStatement(Connection connecton, PreparedStatement statement) {
-        
-        
-        try {
-            // statement = connecton.prepareStatement(insertTableSQL);
-            statement.setString(1, this.getArtist_id());
-            statement.setString(2, this.getArtist_name());
-            statement.setString(3, this.getArtist_location());
-            statement.setFloat(4, this.getArtist_latitude());
-            statement.setFloat(5, this.getArtist_longitude());
-            statement.addBatch();
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+    public PreparedStatement createPreparedStatement(Connection connection) {
+        // try {
+        //     // statement = connecton.prepareStatement(insertTableSQL);
+        //     statement.setString(1, this.getArtist_id());
+        //     statement.setString(2, this.getArtist_name());
+        //     statement.setString(3, this.getArtist_location());
+        //     statement.setFloat(4, this.getArtist_latitude());
+        //     statement.setFloat(5, this.getArtist_longitude());
+        //     statement.addBatch();
+        // } catch (SQLException e) {
+        //     // TODO Auto-generated catch block
+        //     e.printStackTrace();
+        // }
 
-        return statement;
+        
+        return null;
     }
 
 }

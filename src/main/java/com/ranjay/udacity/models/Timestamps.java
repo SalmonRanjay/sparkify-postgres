@@ -1,18 +1,11 @@
 package com.ranjay.udacity.models;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-import com.google.gson.Gson;
 import com.ranjay.udacity.interfaces.StoredObject;
 
 import lombok.Getter;
@@ -57,51 +50,7 @@ public class Timestamps extends StoredObject {
                 + ", weekday='" + getWeekday() + "'" + "}";
     }
 
-    // @Override
-    // public <T extends StoredObject> Stream<T> mapPojoToFileData(Stream<String> dataStream) {
-    //     List<Timestamps> storedObjectList = new ArrayList<>();
-    //     Gson converter = new Gson();
-    //     for (String line : dataStream.collect(Collectors.toList())) {
-    //         TStamps ts = converter.fromJson(line, TStamps.class);
-    //         Timestamps timestamp = new Timestamps(ts.getTs());
-    //         storedObjectList.add(timestamp);
-    //     }
-    //     return (Stream<T>) storedObjectList.stream();
-        
-    // }
-    @Override
-    public Stream<StoredObject> mapPojoToFileData(Stream<String> dataStream) {
-        List<StoredObject> storedObjectList = new ArrayList<>();
-        Gson converter = new Gson();
-        for (String line : dataStream.collect(Collectors.toList())) {
-            TStamps ts = converter.fromJson(line, TStamps.class);
-            Timestamps timestamp = new Timestamps(ts.getTs());
-            storedObjectList.add(timestamp);
-        }
-        return storedObjectList.stream();
-        
-    }
-
-    @Override
-    public PreparedStatement createPreparedStatement(Connection connection) {
-        // try {
-        //     // statement = connection.prepareStatement(insertTableSQL);
-        //     statement.setString(1, this.getStart_time());
-        //     statement.setInt(2, this.getHour());
-        //     statement.setInt(3, this.getDay());
-        //     statement.setInt(4, this.getWeek());
-        //     statement.setInt(5, this.getMonth());
-        //     statement.setInt(6, this.getYear());
-        //     statement.setString(7, this.getWeekday());
-        //     statement.addBatch();
-
-        // } catch (SQLException e) {
-        //     // TODO Auto-generated catch block
-        //     e.printStackTrace();
-        // }
-        return null;
-    }
-
+  
     
 
 }

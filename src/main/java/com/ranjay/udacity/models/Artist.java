@@ -1,14 +1,7 @@
 package com.ranjay.udacity.models;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-import com.google.gson.Gson;
 import com.ranjay.udacity.interfaces.StoredObject;
 
 import lombok.Getter;
@@ -45,43 +38,6 @@ public class Artist extends StoredObject {
     public int hashCode() {
         return Objects.hash(artist_id);
     }
-
-    @Override
-    public Stream<StoredObject> mapPojoToFileData(Stream<String> dataStream) {
-        List<StoredObject> storedObjects = new ArrayList<>();
-        Gson converter = new Gson();
-        for (String line : dataStream.collect(Collectors.toList())) {
-            storedObjects.add(converter.fromJson(line, Artist.class));
-        }
-        return storedObjects.stream();
-
-    }
-
-    @Override
-    public PreparedStatement createPreparedStatement(Connection connection) {
-
-        List<List<StoredObject>> output = ListUtils.partition(boundList, 100);
-        // for (List<BoundStatement> boundedStatement : output) {
-        //     BatchStatement microBatches = new BatchStatement();
-        //     microBatches.addAll(boundedStatement);
-        //     if (session.execute(microBatches) != null)
-        //         System.out.println("Successfully Inserted Batch of size: " + microBatches.size());
-
-        // }
-        // try {
-        // // statement = connecton.prepareStatement(insertTableSQL);
-        // statement.setString(1, this.getArtist_id());
-        // statement.setString(2, this.getArtist_name());
-        // statement.setString(3, this.getArtist_location());
-        // statement.setFloat(4, this.getArtist_latitude());
-        // statement.setFloat(5, this.getArtist_longitude());
-        // statement.addBatch();
-        // } catch (SQLException e) {
-        // // TODO Auto-generated catch block
-        // e.printStackTrace();
-        // }
-
-        return null;
-    }
+  
 
 }

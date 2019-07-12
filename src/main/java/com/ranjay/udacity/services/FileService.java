@@ -1,58 +1,38 @@
-// package com.ranjay.udacity.services;
+package com.ranjay.udacity.services;
 
-// import java.io.BufferedReader;
-// import java.io.File;
-// import java.io.FileNotFoundException;
-// import java.io.FileReader;
-// import java.io.IOException;
-// import java.util.ArrayList;
-// import java.util.List;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
 
-// import com.google.gson.Gson;
+import org.apache.commons.io.FileUtils;
 
-// public final class FileService {
-//     private FileService() {
-//     };
-
+public final class FileService{
     
-//     public static java.util.List<File> getAllFilesInDirectory(String dirPath) {
-//         List<File> allFiles = new ArrayList<>();
-//         traverseDirectory(new File(dirPath), allFiles);
-//         return allFiles;
-//     }
+    private FileService(){};
 
-//     private static void traverseDirectory(File node, List<File> files) {
+    public static Stream<String> directoryToLInes(File directory){
+        return FileUtils.listFiles(directory, null, true)
+                .stream()
+                .map(FileService::readFileAndCreateListOfStrings)
+                .flatMap(list -> list.stream());
+    }
 
-//         if (node.isDirectory()) {
-//             String[] subDirs = node.list();
-//             for (String filename : subDirs) {
-//                 traverseDirectory(new File(node, filename), files);
-//             }
-//         } else {
-//             // System.out.println(node.getAbsoluteFile());
-//             files.add(node.getAbsoluteFile());
-//         }
-//     }
+    public static void readFileLinesAdnAddToList(File file, List<String> fileContents) throws IOException{
+        for (String line : FileUtils.readLines(file, "UTF-8")){
+            fileContents.add(line);
+        }
+    }
 
+    private static List<String> readFileAndCreateListOfStrings(File file){
+        List<String> fileContents = new ArrayList<>();
+        try {
+            readFileLinesAdnAddToList(file, fileContents);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-//     public static <T, P > List<T> returnStoredObject(File node, P objType) {
-       
-//         List<T> storedObjectList = new ArrayList<>();
-//         Gson converter = new Gson();
-       
-//         try (FileReader fr = new FileReader(node.getAbsolutePath());
-//             BufferedReader br = new BufferedReader(fr)){
-            
-//             String line;
-//             while ((line = br.readLine()) != null) {
-//                 storedObjectList.add(converter.fromJson(line, (Class<T>)objType.getClass()));
-//             }
-
-//         } catch (FileNotFoundException e) {
-//             e.printStackTrace();
-//         } catch (IOException e) {
-//             e.printStackTrace();
-//         } 
-//         return storedObjectList;
-//     }
-// }
+        return fileContents;
+    }
+}

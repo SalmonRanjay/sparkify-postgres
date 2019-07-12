@@ -1,21 +1,5 @@
 package com.ranjay.udacity.services;
 
-import java.io.File;
-import java.sql.BatchUpdateException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import com.ranjay.udacity.interfaces.StoredObject;
-import com.ranjay.udacity.models.TStamps;
-import com.ranjay.udacity.models.Timestamps;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

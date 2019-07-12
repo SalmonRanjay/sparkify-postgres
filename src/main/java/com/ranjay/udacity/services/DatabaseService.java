@@ -54,76 +54,17 @@ public final class DatabaseService {
     //     }
     // }
 
-    // public static void executeBatchPreparedStatement(PreparedStatement statement, Connection connection) {
-    //     try {
-    //         statement.executeBatch();
-    //         connection.commit();
-    //     } catch (SQLIntegrityConstraintViolationException e) {
-    //         LOGGER.error(e.getMessage());
-    //     } catch (BatchUpdateException e) {
-    //         LOGGER.error(e.getLocalizedMessage());
-    //     } catch (SQLException e) {
-    //         LOGGER.error(e.getMessage());
-    //         e.printStackTrace();
-    //     } finally {
-    //         try {
-    //             connection.close();
-    //             statement.close();
-    //         } catch (SQLException e) {
-    //             e.printStackTrace();
-    //         }
-
-    //     }
-    // }
-
-    // public static <T extends StoredObject> void commitThreadTransaction(List<T> storedObjectsList, T storedObj,
-    //         String sqlInsertStatement, String filepath) {
-
-    //     Connection connection = getDBConnection();
-    //     PreparedStatement statement;
-    //     List<T> intermediateObjectList = new ArrayList<>();
-    //     try {
-    //         statement = connection.prepareStatement(sqlInsertStatement);
-    //         for (File file : FileService.getAllFilesInDirectory(filepath)) {
-    //             intermediateObjectList.addAll(FileService.returnStoredObject(file, storedObj));
-    //         }
-    //         Set<T> set = new HashSet<T>(intermediateObjectList);
-    //         storedObjectsList.addAll(set);
-    //         for (T art : storedObjectsList) {
-    //             statement = art.createPreparedStatement(connection, statement);
-    //         }
-    //         executeBatchPreparedStatement(statement, connection);
-    //     } catch (SQLException e) {
-    //         LOGGER.error(e.getMessage());
-    //         e.printStackTrace();
-
-    //     }
-    // }
-
-    // public static <T extends StoredObject, P> void commitThreadTransactionTs(List<T> storedObjectsList, P storedObj,
-    //         String sqlInsertStatement, String filepath) {
-
-    //     Connection connection = getDBConnection();
-    //     PreparedStatement statement;
-    //     List<P> intermediateObjectList = new ArrayList<>();
-    //     try {
-    //         statement = connection.prepareStatement(sqlInsertStatement);
-    //         for (File file : FileService.getAllFilesInDirectory(filepath)) {
-    //             intermediateObjectList.addAll(FileService.returnStoredObject(file, storedObj));
-    //         }
-    //         for (P item : intermediateObjectList) {
-    //             TStamps timestamp = (TStamps) item;
-    //             storedObjectsList.add((T) new Timestamps(timestamp.getTs()));
-    //         }
-
-    //         for (T art : storedObjectsList) {
-    //             statement = art.createPreparedStatement(connection, statement);
-    //         }
-    //         executeBatchPreparedStatement(statement, connection);
-    //     } catch (SQLException e) {
-    //         LOGGER.error(e.getMessage());
-    //         e.printStackTrace();
-
+     /**
+     * Create microbatches of size 100 from a List of BoundStatements lists
+     */
+    // public static void executeBatchStatment(){ 
+    //     List<List<BoundStatement>> output = ListUtils.partition(boundList, 100);
+    //     for (List<BoundStatement> boundedStatement : output) {
+    //         BatchStatement microBatches = new BatchStatement();
+    //         microBatches.addAll(boundedStatement);
+    //         if(session.execute(microBatches) != null)
+    //             System.out.println("Successfully Inserted Batch of size: " + microBatches.size());
+            
     //     }
     // }
 

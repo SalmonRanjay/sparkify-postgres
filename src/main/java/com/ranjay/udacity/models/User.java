@@ -2,10 +2,13 @@ package com.ranjay.udacity.models;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.google.gson.Gson;
 import com.ranjay.udacity.interfaces.StoredObject;
 
 import lombok.Getter;
@@ -43,9 +46,27 @@ public class User extends StoredObject {
         return Objects.hash(userId);
     }
 
+    // @Override
+    // @SuppressWarnings({"unchecked"})
+    // public <T extends StoredObject> Stream<T> mapPojoToFileData(Stream<String> dataStream) {
+    //     List<User> storedObjectList = new ArrayList<>();
+    //     Gson converter = new Gson();
+    //     for (String line : dataStream.collect(Collectors.toList())) {
+    //         storedObjectList.add(converter.fromJson(line, User.class));
+    //     }
+    //     return (Stream<T>) storedObjectList.stream();
+       
+    // }
+
     @Override
-    public <T extends StoredObject> Stream<T> mapPojoToFileData(Stream<String> dataStream) {
-        return null;
+    public Stream<StoredObject> mapPojoToFileData(Stream<String> dataStream) {
+        List<StoredObject> storedObjectList = new ArrayList<>();
+        Gson converter = new Gson();
+        for (String line : dataStream.collect(Collectors.toList())) {
+            storedObjectList.add(converter.fromJson(line, User.class));
+        }
+        return storedObjectList.stream();
+       
     }
 
     @Override

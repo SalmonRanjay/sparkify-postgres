@@ -14,14 +14,18 @@ public class App {
 
     public static void main(String[] args) {
       
-
-        Artist artistsManager = new Artist();
-        artistsManager.mapPojoToFileData(SPFileService.processFileToStreamOFStrings(new File("./data")))
-        .forEach(item -> {
+     
+        // Timestamps timestamps = new Timestamps();
+        // timestamps.mapPojoToFileData(SPFileService.processFileToStreamOFStrings(new File("./data/log_data")))
+        // .forEach(item ->{
+        //     System.out.println(item.toString());
+        // });
+      
+        Artist artist = new Artist();
+        artist.mapPojoToFileData(SPFileService.processFileToStreamOFStrings(new File("./data/song_data")))
+        .forEach(item ->{
             System.out.println(item.toString());
         });
-     
-      
     }
 }
 

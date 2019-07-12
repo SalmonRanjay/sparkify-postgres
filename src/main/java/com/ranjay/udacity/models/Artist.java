@@ -47,23 +47,27 @@ public class Artist extends StoredObject {
     }
 
     @Override
-    public <T extends StoredObject> Stream<T> mapPojoToFileData(Stream<String> dataStream) {
-        // return ObjectMapperService.mapPojoToFileData(dataStream, Artist.class);
-        List<Artist> storedObjectList = new ArrayList<>();
+    public Stream<StoredObject> mapPojoToFileData(Stream<String> dataStream) {
+        List<StoredObject> storedObjects = new ArrayList<>();
         Gson converter = new Gson();
         for (String line : dataStream.collect(Collectors.toList())) {
-            storedObjectList.add(converter.fromJson(line, Artist.class));
+            storedObjects.add(converter.fromJson(line, Artist.class));
         }
-        return (Stream<T>) storedObjectList.stream();
+        return storedObjects.stream();
 
-    //  return   dataStream.map( line ->{
-    //        Gson converter = new Gson();
-    //        return (Artist) converter.fromJson(line , Artist.class); 
-    //     });
     }
 
     @Override
     public PreparedStatement createPreparedStatement(Connection connection) {
+
+        List<List<StoredObject>> output = ListUtils.partition(boundList, 100);
+        // for (List<BoundStatement> boundedStatement : output) {
+        //     BatchStatement microBatches = new BatchStatement();
+        //     microBatches.addAll(boundedStatement);
+        //     if (session.execute(microBatches) != null)
+        //         System.out.println("Successfully Inserted Batch of size: " + microBatches.size());
+
+        // }
         // try {
         // // statement = connecton.prepareStatement(insertTableSQL);
         // statement.setString(1, this.getArtist_id());

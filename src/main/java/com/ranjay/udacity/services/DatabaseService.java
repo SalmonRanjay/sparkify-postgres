@@ -1,42 +1,50 @@
 package com.ranjay.udacity.services;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public final class DatabaseService {
-    private static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
-    private static final String DB_CONNECTION = "jdbc:mysql://localhost:3306/udacity?useSSL=false&serverTimezone=UTC";
-    private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "password";
-    private static final Logger LOGGER = LogManager.getLogger(DatabaseService.class.getName());
+public class DatabaseService {
+    private final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
+    private final String DB_CONNECTION = "jdbc:mysql://localhost:3306/udacity?useSSL=false&serverTimezone=UTC";
+    private final String DB_USER = "root";
+    private final String DB_PASSWORD = "password";
+    private final Logger LOGGER = LogManager.getLogger(DatabaseService.class.getName());
+    private Connection dbConnection;
+    private static DatabaseService instance;
 
-    // private DatabaseService() {
-    // };
+    private DatabaseService() {
+        establishDriver();
+        createDBConnection();
+    };
 
-    // public static Connection getDBConnection() {
-    //     Connection dbConnection = null;
-    //     establishDriver();
-    //     return createDBConnection(dbConnection);
-    // }
 
-    // private static Connection createDBConnection(Connection dbConnection) {
-    //     try {
-    //         dbConnection = DriverManager.getConnection(DB_CONNECTION, DB_USER, DB_PASSWORD);
-    //         dbConnection.setAutoCommit(false);// commit trasaction manually
-    //         return dbConnection;
-    //     } catch (SQLException e) {
-    //         System.out.println(e.getMessage());
-    //     }
-    //     return dbConnection;
-    // }
+    private void createDBConnection() {
+        try {
+            this.dbConnection = DriverManager.getConnection(DB_CONNECTION, DB_USER, DB_PASSWORD);
+            this.dbConnection.setAutoCommit(false);// commit trasaction manually
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
-    // private static void establishDriver() {
-    //     try {
-    //         Class.forName(DB_DRIVER);
-    //     } catch (ClassNotFoundException e) {
-    //         System.out.println(e.getMessage());
-    //     }
-    // }
+    private void establishDriver() {
+        try {
+            Class.forName(DB_DRIVER);
+        } catch (ClassNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static DatabaseService getInstance(){
+        if(instance == null){
+            instance = new DatabaseService();
+        }
+        return instance;
+    }
 
      /**
      * Create microbatches of size 100 from a List of BoundStatements lists

@@ -41,6 +41,17 @@ public class Timestamps extends StoredObject {
     }
 
     public Timestamps(TStamps ts) {
+        Date date = new Date(ts.getTs());
+        SimpleDateFormat localDateFormat = new SimpleDateFormat("HH:mm:ss");
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTimeInMillis(ts.getTs());
+        this.hour = calendar.get(Calendar.HOUR_OF_DAY);
+        this.day = calendar.get(Calendar.DAY_OF_WEEK);
+        this.month = calendar.get(Calendar.MONTH);
+        this.year = calendar.get(Calendar.YEAR);
+        this.week = calendar.get(Calendar.WEEK_OF_MONTH);
+        this.weekday = DayOfWeek.of(calendar.get(Calendar.DAY_OF_WEEK)).toString();
+        this.start_time = localDateFormat.format(date);
     }
 
     @Override
